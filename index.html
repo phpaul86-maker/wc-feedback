@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WC Feedback</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 24px;
+      background: #f5f5f5;
+      text-align: center;
+    }
+    .card {
+      max-width: 420px;
+      margin: auto;
+      background: white;
+      padding: 24px;
+      border-radius: 18px;
+      box-shadow: 0 4px 16px #0002;
+    }
+    button {
+      width: 100%;
+      font-size: 20px;
+      padding: 18px;
+      margin: 10px 0;
+      border: 0;
+      border-radius: 14px;
+      cursor: pointer;
+    }
+    .ok { background: #d7f8d7; }
+    .paper { background: #fff0b3; }
+    .soap { background: #cfe9ff; }
+    .dirty { background: #ffd0d0; }
+    #status { margin-top: 16px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>WC Feedback</h1>
+    <p>Wie ist der Zustand?</p>
+
+    <button class="ok" onclick="sendFeedback('ok')">👍 Alles sauber</button>
+    <button class="paper" onclick="sendFeedback('paper_missing')">🧻 Papier fehlt</button>
+    <button class="soap" onclick="sendFeedback('soap_missing')">🧼 Seife fehlt</button>
+    <button class="dirty" onclick="sendFeedback('dirty')">🚽 WC verschmutzt</button>
+
+    <div id="status"></div>
+  </div>
+
+  <script type="module">
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+    const SUPABASE_URL = "https://supabase.paulsflow.cloud";
+    const SUPABASE_ANON_KEY = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzdXBhYmFzZSIsImlhdCI6MTc2NjQ0MDg2MCwiZXhwIjo0OTIyMTE0NDYwLCJyb2xlIjoiYW5vbiJ9.nHAacT3bTQDWCQvbi4rw8jk2w3AYQddujYMPy8o2YSM";
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    window.sendFeedback = async function(type) {
+      document.getElementById("status").innerText = "Wird gesendet...";
+
+      const { error } = await supabase
+        .from("feedback")
+        .insert({
+          type: type,
+          source: "qr_web",
+          location: "wc_1",
+          created_at: new Date().toISOString()
+        });
+
+      if (error) {
+        document.getElementById("status").innerText = "Fehler beim Senden.";
+        console.error(error);
+      } else {
+        document.getElementById("status").innerText = "Danke für dein Feedback!";
+      }
+    }
+  </script>
+</body>
+</html>
