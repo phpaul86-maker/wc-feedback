@@ -56,6 +56,9 @@
     const SUPABASE_ANON_KEY = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzdXBhYmFzZSIsImlhdCI6MTc2NjQ0MDg2MCwiZXhwIjo0OTIyMTE0NDYwLCJyb2xlIjoiYW5vbiJ9.nHAacT3bTQDWCQvbi4rw8jk2w3AYQddujYMPy8o2YSM";
 
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    
+    const params = new URLSearchParams(window.location.search);
+    const locationId = params.get("loc") || "unknown";
 
     window.sendFeedback = async function(type) {
       document.getElementById("status").innerText = "Wird gesendet...";
@@ -65,7 +68,7 @@
         .insert({
           type: type,
           source: "qr_web",
-          location: "wc_1",
+          location: locationId,
           created_at: new Date().toISOString()
         });
 
