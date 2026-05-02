@@ -29,7 +29,7 @@
       border-radius: 14px;
       cursor: pointer;
     }
-    .ok { background: #d7f8d7; }
+    .water { background: #d7f8d7; }
     .paper { background: #fff0b3; }
     .soap { background: #cfe9ff; }
     .dirty { background: #ffd0d0; }
@@ -41,7 +41,7 @@
     <h1>WC Feedback</h1>
     <p>Wie ist der Zustand?</p>
 
-    <button class="ok" onclick="sendFeedback('ok')">👍 Alles sauber</button>
+    <button class="water" onclick="sendFeedback('water')">💧 Wasser auf dem Waschtisch</button>
     <button class="paper" onclick="sendFeedback('paper_missing')">🧻 Papier fehlt</button>
     <button class="soap" onclick="sendFeedback('soap_missing')">🧼 Seife fehlt</button>
     <button class="dirty" onclick="sendFeedback('dirty')">🚽 WC verschmutzt</button>
@@ -60,8 +60,33 @@
     const params = new URLSearchParams(window.location.search);
     const locationId = params.get("loc") || "unknown";
 
+    const cooldownMinutes = 30; // ⬅️ HIER stellst du dein Zeitlimit ein
+    const voteKey = "wc_feedback_last_" + locationId;
+    function isBlocked() {  
+    const lastVote = localStorage.getItem(voteKey);  
+    if (!lastVote) return false;  
+      
+    const now = Date.now();  
+    const last = Number(lastVote);  
+    const cooldownMs = cooldownMinutes * 60 * 1000;  
+    
+    return now - last < cooldownMs;
+    }
+    
+    // 🔽 Buttons direkt sperren, wenn Zeit noch nicht abgelaufen ist
+    
+    if (isBlocked()) {  
+    document.querySelectorAll("button").forEach(btn => btn.disabled = true);
+    document.getElementById("status").innerText =    
+    "Danke! Du kannst später erneut Feedback geben.";}
+
     window.sendFeedback = async function(type) {
-      document.getElementById("status").innerText = "Wird gesendet...";
+    if (isBlocked()) {
+    document.getElementById("status").innerText =
+    "Du hast vor kurzem bereits Feedback abgegeben.";
+    return;
+    }
+    document.getElementById("status").innerText = "Wird gesendet...";
 
       const { error } = await supabase
         .from("feedback")
@@ -76,7 +101,11 @@
         document.getElementById("status").innerText = "Fehler beim Senden.";
         console.error(error);
       } else {
-        document.getElementById("status").innerText = "Danke für dein Feedback!";
+      // 🔽 Zeit speichern
+      localStorage.setItem(voteKey, Date.now().toString());
+      // 🔽 Buttons deaktivieren
+      document.querySelectorAll("button").forEach(btn => btn.disabled = true);
+      document.getElementById("status").innerText = "Danke für dein Feedback!";
       }
     }
   </script>
