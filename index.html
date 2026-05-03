@@ -49,12 +49,12 @@
   <div class="card">
     <h1>Service Feedback WC</h1>
     <p>Welcher Service wird benötigt?<br>
-    What service is needed?</p>
+    <i>What service is needed?</i></p>
 
-    <button class="soap" onclick="sendFeedback('Seife fehlt')">Seife fehlt <br> No soap</button>
-    <button class="paper" onclick="sendFeedback('Toilettenpapier fehlt')">Toilettenpapier fehlt <br> No toilet paper</button>
-    <button class="dirty" onclick="sendFeedback('Toilette ist verschmutzt')">Toilette verschmutzt <br> Dirty toilet</button>
-    <button class="water" onclick="sendFeedback('Wasser auf Waschtisch')">Wasser auf Waschtisch <br> Water on sink</button>
+    <button class="soap" onclick="sendFeedback('Seife fehlt')">Seife fehlt<br><i>No soap</i></button>
+    <button class="paper" onclick="sendFeedback('Toilettenpapier fehlt')">Toilettenpapier fehlt<br><i>No toilet paper</i></button>
+    <button class="dirty" onclick="sendFeedback('Toilette ist verschmutzt')">Toilette verschmutzt<br><i>Dirty toilet</i></button>
+    <button class="water" onclick="sendFeedback('Wasser auf Waschtisch')">Wasser auf Waschtisch<br><i>Water on sink</i></button>
 
     <div id="status"></div>
   </div>
@@ -88,15 +88,15 @@
     if (isBlocked()) {  
     document.querySelectorAll("button").forEach(btn => btn.disabled = true);
     document.getElementById("status").innerHTML =    
-    "Du kannst später erneut Feedback geben.<br> You can give feedback again later.";}
+    "Du kannst später erneut Feedback geben.<br><i>You can give feedback again later.</i>";}
 
     window.sendFeedback = async function(type) {
     if (isBlocked()) {
     document.getElementById("status").innerHTML =
-    "Du hast vor kurzem bereits Feedback abgegeben.<br> You have already given feedback recently.";
+    "Du hast vor kurzem bereits Feedback abgegeben.<br><i>You have already given feedback recently.</i>";
     return;
     }
-    document.getElementById("status").innerHTML = "Wird gesendet...<br>Sending...";
+    document.getElementById("status").innerHTML = "Wird gesendet...<br><i>Sending...</i>";
 
       const { error } = await supabase
         .from("feedback")
@@ -108,14 +108,14 @@
         });
 
       if (error) {
-        document.getElementById("status").innerHTML = "Fehler beim Senden.<br>Error while sending.";
+        document.getElementById("status").innerHTML = "Fehler beim Senden.<br><i>Error while sending.</i>";
         console.error(error);
       } else {
       // 🔽 Zeit speichern
       localStorage.setItem(voteKey, Date.now().toString());
       // 🔽 Buttons deaktivieren
       document.querySelectorAll("button").forEach(btn => btn.disabled = true);
-      document.getElementById("status").innerHTML = "Danke für dein Feedback!<br> Thank you for your feedback!";
+      document.getElementById("status").innerHTML = "Danke für dein Feedback!<br><i>Thank you for your feedback!</i>";
       }
     }
   </script>
