@@ -10,13 +10,13 @@
       margin: 0;
       padding: 24px;
       background: #f5f5f5;
-      color: white;
+      color: black;
       text-align: center;
     }
     .card {
       max-width: 420px;
       margin: auto;
-      background: #78052d;
+      background: white;
       padding: 24px;
       border-radius: 18px;
       box-shadow: 0 4px 16px #0002;
@@ -31,10 +31,16 @@
       border-radius: 14px;
       cursor: pointer;
     }
-    .water { background: #535257; }
-    .paper { background: #535257; }
-    .soap { background: #535257; }
-    .dirty { background: #535257; }
+    button:disabled {
+      background: #777;
+      color: #ccc;
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .water { background: #78052d; }
+    .paper { background: #78052d; }
+    .soap { background: #78052d; }
+    .dirty { background: #78052d; }
     #status { margin-top: 16px; font-weight: bold; }
   </style>
 </head>
