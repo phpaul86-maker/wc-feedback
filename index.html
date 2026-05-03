@@ -1,12 +1,13 @@
 <!doctype html>
 <html lang="de">
 <head>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>FBB WC Feedback</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Inter', Arial, sans-serif;
       margin: 0;
       padding: 24px;
       background: #f5f5f5;
@@ -26,7 +27,7 @@
       font-size: 20px;
       padding: 18px;
       margin: 10px 0;
-      color: #E61900;
+      color: white;
       border: 4px solid rgba(230,25,0,0.6);
       border-radius: 14px;
       cursor: pointer;
@@ -37,23 +38,23 @@
       opacity: 0.6;
       cursor: not-allowed;
     }
-    .water { background: white; }
-    .paper { background: white; }
-    .soap { background: white; }
-    .dirty { background: white; }
+    .water { background: #78052d; }
+    .paper { background: #78052d; }
+    .soap { background: #78052d; }
+    .dirty { background: #78052d; }
     #status { margin-top: 16px; font-weight: bold; }
   </style>
 </head>
 <body>
   <div class="card">
-    <h1>FBB WC Feedback</h1>
+    <h1>Service Feedback WC</h1>
     <p>Welcher Service wird benötigt?<br>
     What service is needed?</p>
 
-    <button class="water" onclick="sendFeedback('Wasser auf Waschtisch')">Wasser auf Waschtisch <br> Water on sink</button>
-    <button class="paper" onclick="sendFeedback('Papier fehlt')">Papier fehlt <br> No toilet paper</button>
     <button class="soap" onclick="sendFeedback('Seife fehlt')">Seife fehlt <br> No soap</button>
-    <button class="dirty" onclick="sendFeedback('WC ist verschmutzt')">WC verschmutzt <br> Dirty toilet</button>
+    <button class="paper" onclick="sendFeedback('Toilettenpapier fehlt')">Toilettenpapier fehlt <br> No toilet paper</button>
+    <button class="dirty" onclick="sendFeedback('Toilette ist verschmutzt')">Toilette verschmutzt <br> Dirty toilet</button>
+    <button class="water" onclick="sendFeedback('Wasser auf Waschtisch')">Wasser auf Waschtisch <br> Water on sink</button>
 
     <div id="status"></div>
   </div>
