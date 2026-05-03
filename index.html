@@ -87,7 +87,7 @@
     if (isBlocked()) {  
     document.querySelectorAll("button").forEach(btn => btn.disabled = true);
     document.getElementById("status").innerHTML =    
-    "Danke! Du kannst später erneut Feedback geben.<br> Thank you! You can give feedback again later.";}
+    "Du kannst später erneut Feedback geben.<br> You can give feedback again later.";}
 
     window.sendFeedback = async function(type) {
     if (isBlocked()) {
