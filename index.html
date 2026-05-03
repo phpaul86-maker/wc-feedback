@@ -10,7 +10,7 @@
       margin: 0;
       padding: 24px;
       background: #f5f5f5;
-      color: black;
+      color: #E61900;
       text-align: center;
     }
     .card {
@@ -26,8 +26,8 @@
       font-size: 20px;
       padding: 18px;
       margin: 10px 0;
-      color: white;
-      border: 1.5px solid rgba(255,255,255,0.6);
+      color: #E61900;
+      border: 1.5px solid rgba(230,25,0,0.6);
       border-radius: 14px;
       cursor: pointer;
     }
@@ -37,18 +37,18 @@
       opacity: 0.6;
       cursor: not-allowed;
     }
-    .water { background: #78052d; }
-    .paper { background: #78052d; }
-    .soap { background: #78052d; }
-    .dirty { background: #78052d; }
+    .water { background: white; }
+    .paper { background: white; }
+    .soap { background: white; }
+    .dirty { background: white; }
     #status { margin-top: 16px; font-weight: bold; }
   </style>
 </head>
 <body>
   <div class="card">
     <h1>FBB WC Feedback</h1>
-    <p>Helfen Sie uns, ihren Komfort zu verbessern.<br>
-    Help us to improve your comfort.</p>
+    <p>Welcher Service wird benötigt?<br>
+    What service is needed?</p>
 
     <button class="water" onclick="sendFeedback('Wasser auf Waschtisch')">Wasser auf Waschtisch <br> Water on sink</button>
     <button class="paper" onclick="sendFeedback('Papier fehlt')">Papier fehlt <br> No toilet paper</button>
