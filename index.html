@@ -80,16 +80,16 @@
     
     if (isBlocked()) {  
     document.querySelectorAll("button").forEach(btn => btn.disabled = true);
-    document.getElementById("status").innerText =    
-    "Danke! Du kannst später erneut Feedback geben.";}
+    document.getElementById("status").innerHTML =    
+    "Danke! Du kannst später erneut Feedback geben.<br> Thank you! You can give feedback again later.";}
 
     window.sendFeedback = async function(type) {
     if (isBlocked()) {
-    document.getElementById("status").innerText =
-    "Du hast vor kurzem bereits Feedback abgegeben.";
+    document.getElementById("status").innerHTML =
+    "Du hast vor kurzem bereits Feedback abgegeben.<br> You have already given feedback recently.";
     return;
     }
-    document.getElementById("status").innerText = "Wird gesendet...";
+    document.getElementById("status").innerHTML = "Wird gesendet...<br>Sending...";
 
       const { error } = await supabase
         .from("feedback")
@@ -101,14 +101,14 @@
         });
 
       if (error) {
-        document.getElementById("status").innerText = "Fehler beim Senden.";
+        document.getElementById("status").innerHTML = "Fehler beim Senden.<br>Error while sending.";
         console.error(error);
       } else {
       // 🔽 Zeit speichern
       localStorage.setItem(voteKey, Date.now().toString());
       // 🔽 Buttons deaktivieren
       document.querySelectorAll("button").forEach(btn => btn.disabled = true);
-      document.getElementById("status").innerText = "Danke für dein Feedback!";
+      document.getElementById("status").innerHTML = "Danke für dein Feedback!<br> Thank you for your feedback!";
       }
     }
   </script>
