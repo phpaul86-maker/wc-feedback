@@ -51,10 +51,10 @@
     <p>Welcher Service wird benötigt?<br>
     <em>What service is needed?</em></p>
 
-    <button class="soap" onclick="sendFeedback('Seife fehlt')">Seife fehlt<br><i>No soap</i></button>
-    <button class="paper" onclick="sendFeedback('Toilettenpapier fehlt')">Toilettenpapier fehlt<br><i>No toilet paper</i></button>
-    <button class="dirty" onclick="sendFeedback('Toilette ist verschmutzt')">Toilette verschmutzt<br><i>Dirty toilet</i></button>
-    <button class="water" onclick="sendFeedback('Wasser auf Waschtisch')">Wasser auf Waschtisch<br><i>Water on sink</i></button>
+    <button class="soap" onclick="sendFeedback('soap_missing')">Seife fehlt<br><i>No soap</i></button>
+    <button class="paper" onclick="sendFeedback('paper_missing')">Toilettenpapier fehlt<br><i>No toilet paper</i></button>
+    <button class="dirty" onclick="sendFeedback('dirty')">Toilette verschmutzt<br><i>Dirty toilet</i></button>
+    <button class="water" onclick="sendFeedback('water')">Wasser auf Waschtisch<br><i>Water on sink</i></button>
 
     <div id="status"></div>
   </div>
@@ -91,27 +91,41 @@
     "Du kannst später erneut Feedback geben.<br><em>You can give feedback again later.</em>";}
 
     window.sendFeedback = async function(type) {
-    if (isBlocked()) {
-    document.getElementById("status").innerHTML =
-    "Du hast vor kurzem bereits Feedback abgegeben.<br><em>You have already given feedback recently.</em>";
-    return;
+      if (isBlocked()) {
+        document.getElementById("status").innerHTML =
+          "Du hast vor kurzem bereits Feedback abgegeben.<br><em>You have already given feedback recently.</em>";
+        return;
     }
-    document.getElementById("status").innerHTML = "Wird gesendet...<br><em>Sending...</em>";
 
-     const { data, error } = await supabase.rpc("submit_feedback", {
+    document.querySelectorAll("button").forEach(btn => btn.disabled = true);
+    document.getElementById("status").innerHTML =
+      "Wird gesendet...<br><em>Sending...</em>";
+
+    const { data, error } = await supabase.rpc("submit_feedback", {
       p_type: type,
       p_location: locationId,
       p_source: "qr_web"
-      });
+    });
 
-      if (error) {
-        document.getElementById("status").innerHTML = "Fehler beim Senden.<br><em>Failed to send.</em>";
-        console.error(error);
-      } else if (data.saved === false) {
-        document.getElementById("status").innerHTML = "Diese Meldung wurde bereits weitergeleitet.<br><em>This issue has already been reported.</em>";
-      } else {
-        document.getElementById("status").innerHTML = "Danke für dein Feedback!<br><em>Thank you for your feedback!</em>";
-      }
+    if (error) {
+      document.getElementById("status").innerHTML =
+        "Fehler beim Senden.<br><em>Failed to send.</em>";
+      console.error(error);
+
+      document.querySelectorAll("button").forEach(btn => btn.disabled = false);
+      return;
+    }
+
+    localStorage.setItem(voteKey, Date.now().toString());
+
+    if (data.saved === false) {
+      document.getElementById("status").innerHTML =
+        "Diese Meldung wurde bereits weitergeleitet.<br><em>This issue has already been reported.</em>";
+    } else {
+      document.getElementById("status").innerHTML =
+        "Danke für dein Feedback!<br><em>Thank you for your feedback!</em>";
+    }
+  } ;
     }
   </script>
 </body>
