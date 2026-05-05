@@ -49,7 +49,7 @@
   <div class="card">
     <h1>Service Feedback</h1>
     <p>Welcher Service wird benötigt?<br>
-    <i>What service is needed?</i></p>
+    <em>What service is needed?</em></p>
 
     <button class="soap" onclick="sendFeedback('Seife fehlt')">Seife fehlt<br><i>No soap</i></button>
     <button class="paper" onclick="sendFeedback('Toilettenpapier fehlt')">Toilettenpapier fehlt<br><i>No toilet paper</i></button>
@@ -88,34 +88,29 @@
     if (isBlocked()) {  
     document.querySelectorAll("button").forEach(btn => btn.disabled = true);
     document.getElementById("status").innerHTML =    
-    "Du kannst später erneut Feedback geben.<br><i>You can give feedback again later.</i>";}
+    "Du kannst später erneut Feedback geben.<br><em>You can give feedback again later.</em>";}
 
     window.sendFeedback = async function(type) {
     if (isBlocked()) {
     document.getElementById("status").innerHTML =
-    "Du hast vor kurzem bereits Feedback abgegeben.<br><i>You have already given feedback recently.</i>";
+    "Du hast vor kurzem bereits Feedback abgegeben.<br><em>You have already given feedback recently.</em>";
     return;
     }
-    document.getElementById("status").innerHTML = "Wird gesendet...<br><i>Sending...</i>";
+    document.getElementById("status").innerHTML = "Wird gesendet...<br><em>Sending...</em>";
 
-      const { error } = await supabase
-        .from("feedback")
-        .insert({
-          type: type,
-          source: "qr_web",
-          location: locationId,
-          created_at: new Date().toISOString()
-        });
+     const { data, error } = await supabase.rpc("submit_feedback", {
+      p_type: type,
+      p_location: locationId,
+      p_source: "qr_web"
+      });
 
       if (error) {
-        document.getElementById("status").innerHTML = "Fehler beim Senden.<br><i>Error while sending.</i>";
+        document.getElementById("status").innerHTML = "Fehler beim Senden.<br><em>Failed to send.</em>";
         console.error(error);
+      } else if (data.saved === false) {
+        document.getElementById("status").innerHTML = "Diese Meldung wurde bereits weitergeleitet.<br><em>This issue has already been reported.</em>";
       } else {
-      // 🔽 Zeit speichern
-      localStorage.setItem(voteKey, Date.now().toString());
-      // 🔽 Buttons deaktivieren
-      document.querySelectorAll("button").forEach(btn => btn.disabled = true);
-      document.getElementById("status").innerHTML = "Danke für dein Feedback!<br><i>Thank you for your feedback!</i>";
+        document.getElementById("status").innerHTML = "Danke für dein Feedback!<br><em>Thank you for your feedback!</em>";
       }
     }
   </script>
