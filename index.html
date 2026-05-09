@@ -39,7 +39,7 @@
       cursor: not-allowed;
     }
     .water { background: #78052d; }
-    .paper { background: #78052d; }
+    .clogged { background: #78052d; }
     .soap { background: #78052d; }
     .dirty { background: #78052d; }
     #status { margin-top: 16px; font-weight: bold; }
@@ -51,11 +51,21 @@
     <p>Welcher Service wird benötigt?<br>
     <em>What service is needed?</em></p>
 
-    <button class="soap" onclick="sendFeedback('soap_missing')">Seife fehlt<br><i>No soap</i></button>
-    <button class="paper" onclick="sendFeedback('paper_missing')">Toilettenpapier fehlt<br><i>No toilet paper</i></button>
-    <button class="dirty" onclick="sendFeedback('dirty')">Toilette verschmutzt<br><i>Dirty toilet</i></button>
-    <button class="water" onclick="sendFeedback('water')">Wasser auf Waschtisch<br><i>Water on sink</i></button>
+    <button class="soap" onclick="sendFeedback('soap_paper_needed')">
+      Seife/Papier benötigt<br><i>Soap/paper needed</i>
+    </button>
 
+    <button class="water" onclick="sendFeedback('leak_or_water')">
+      Leckage oder Wasser melden<br><i>Report leak or water</i>
+    </button>
+
+    <button class="dirty" onclick="sendFeedback('cleanup_needed')">
+      Reinigung erforderlich<br><i>Clean-up is needed</i>
+    </button>
+
+    <button class="clogged" onclick="sendFeedback('toilet_clogged_or_broken')">
+      Toilette verstopft oder defekt<br><i>Toilet is clogged or broken</i>
+    </button>
     <div id="status"></div>
   </div>
 
