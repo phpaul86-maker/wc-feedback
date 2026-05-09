@@ -42,6 +42,7 @@
     .clogged { background: #78052d; }
     .soap { background: #78052d; }
     .dirty { background: #78052d; }
+    .ok { background: #78052d; }
     #status { margin-top: 16px; font-weight: bold; }
   </style>
 </head>
@@ -65,6 +66,9 @@
 
     <button class="clogged" onclick="sendFeedback('toilet_clogged_or_broken')">
       Toilette verstopft oder defekt<br><i>Toilet is clogged or broken</i>
+    </button>
+    <button class="ok" onclick="sendFeedback('all_ok')">
+      Alles in Ordnung<br><i>Everything is fine</i>
     </button>
     <div id="status"></div>
   </div>
